@@ -25,17 +25,35 @@
    --red: #d9534f;
 }
 
-.pagination>span>a {
+body {
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(102,0,255,1) 50%, rgba(0,61,255,1) 100%);
+}
+
+.pagination>li>a {
    color: var(--dark-blue);
+   position: relative;
+   float: left;
+   padding: 6px 12px;
+   line-height: 1.428571429;
+   text-decoration: none;
+   background-color: #fff;
+   border: 1px solid #ddd;
+   margin-left: -1px;
 }
  
-.pagination>span>a {
+.pagination>li[class="active"]>a {
    background-color: var(--dark-blue);
    border: 1px solid var(--dark-blue);
+   color: var(--light-gray);
 }
  
-.pagination>span>a:hover {
+.pagination>li[class="active"]>a:hover {
    background-color: var(--gray);
    border: 1px solid var(--gray);
    color: var(--dark-blue);
+}
+
+.card {
+   margin-top: 10px;
+   margin-bottom: 10px;
 }
