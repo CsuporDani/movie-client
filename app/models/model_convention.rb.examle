@@ -1,12 +1,11 @@
-class Movie < ApplicationRecord
+class ModelConvention < ApplicationRecord
+
   # CONSTANTS
   # = CONFIG, SAMPLE = 0
 
   # INCLUDES, EXTENDS
   # = include
   # = extend
-
-  include Serialable
 
   # MODULE INITIALIZERS
   # = acts_as_paranoid
@@ -22,9 +21,6 @@ class Movie < ApplicationRecord
 
   # VALIDATIONS
   # = validates
-
-  validates :title,   presence: true
-  validates :tmdb_id, presence: true, uniqueness: true
 
   # ASSOCIATIONS
   # = has_many, ... (has_many :comments, [class_name: 'Comment']?, ..., dependent: [ :destroy, :nullify, :delete ])
