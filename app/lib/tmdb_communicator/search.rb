@@ -7,5 +7,4 @@ class TmdbCommunicator::Search < TmdbCommunicator
     get(URI::HTTPS.build(host: host, path: path, query: query))
   end
 
-
 end

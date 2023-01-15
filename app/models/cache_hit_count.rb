@@ -1,0 +1,2 @@
+class CacheHitCount < ApplicationRecord
+end
