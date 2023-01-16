@@ -11,19 +11,12 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent", >
-          <%= form_with url: "/", method: :get, html: {class: 'd-flex'} do |form| %>
-            <%= form.text_field :movie_name, class: "form-control me-4" %>
-            <%= form.submit "Search", class: "btn btn-outline-success" %>
-          <% end %>
-        </div>
-      </div>
-    </nav>
-    <%= yield %>
+
+    <div class='container'>
+      <%= render 'shared/search' %>
+      <%= render 'shared/flashes' %>
+
+      <%= yield %>
+    </div>
   </body>
 </html>

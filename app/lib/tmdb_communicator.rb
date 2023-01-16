@@ -1,6 +1,8 @@
 require 'singleton'
 
 class TmdbCommunicator
+  class ApiError < StandardError; end
+
   include Singleton
 
   attr_reader :host, :api_key
@@ -11,6 +13,10 @@ class TmdbCommunicator
   end
 
   def get url
-    HTTParty.get(url)
+    response = HTTParty.get(url)
+    raise response.code unless response.success?
+    response
+  rescue
+    raise ApiError
   end
 end

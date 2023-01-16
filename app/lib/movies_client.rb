@@ -11,7 +11,11 @@ class MoviesClient
 
   def fetch_from_cache cache
     CacheHitCount.find(cache[:cache_hit_count_id]).increment!(:hit_count)
-    { total_results: cache[:total_results], movies: Movie.where(id: cache[:movie_ids]) }
+    {
+      total_results: cache[:total_results],
+      movies: Movie.where(id: cache[:movie_ids]),
+      message: 'Result from cache'
+    }
   end
 
   def fetch_from_tmdb movie_name, page
@@ -26,7 +30,12 @@ class MoviesClient
   end
 
   def find_or_create movies_hash
-    movies_hash['results'].each_with_object({ total_results: movies_hash['total_results'], movies: [] }) do |movie_hash, memo|
+    init_hash = {
+      total_results: movies_hash['total_results'],
+      movies: [],
+      message: 'Result from API'
+    }
+    movies_hash['results'].each_with_object(init_hash) do |movie_hash, memo|
       movie = Movie.find_or_initialize_by(tmdb_id: movie_hash['id'])
       movie.update!(movie_hash.slice('title', 'overview', 'poster_path'))
       memo[:movies] << movie

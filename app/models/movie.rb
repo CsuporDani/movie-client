@@ -19,6 +19,7 @@ class Movie < ApplicationRecord
 
   # ATTR
   # = attr_(accessor,writer,reader)
+  attr_accessor :poster_url
 
   # VALIDATIONS
   # = validates
@@ -43,6 +44,10 @@ class Movie < ApplicationRecord
 
   # INSTANCE METHODS
   # = def function; end;
+
+  def poster_url
+    @poster_url ||= poster_path.present? ? "https://image.tmdb.org/t/p/original#{poster_path}" : nil
+  end
 
   # SERIALIZERS
   # = def json_as_akarmi options = nil; options ||= {}; as_json options.merge({ methods: [:id, :created_at, :__type], includes: { ... }}); end

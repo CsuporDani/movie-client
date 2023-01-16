@@ -1,0 +1,5 @@
+= form_with url: search_path, method: :get, html: {class: 'd-flex mt-3'} do |f|
+  .input-group.mb-3
+    = f.text_field :movie_name, value: params[:movie_name], class: "form-control me-6", placeholder: 'Search...', required: true
+    .input-group-prepend
+      = f.submit 'Search', id: 'btn_search', class: "btn btn-success", data: { disable_with: 'In progress' }

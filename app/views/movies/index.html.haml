@@ -1,14 +1,14 @@
-.container
+- if @movies.present?
   .row.hidden-md-up
     - @movies.each do |movie|
       .col-md-3.d-flex
         .card
-          - img_src = movie.poster_path ? "https://image.tmdb.org/t/p/original/#{movie.poster_path}" : 'dummy-image-square.jpg'
+          - img_src = movie.poster_url ? movie.poster_url : 'dummy-image-square.jpg'
           = image_tag img_src, class: 'card-img-top'
           .card-body
             %h5.card-title
               = movie.title
             %p.card-text
               = movie.overview.truncate(300, omission: '...')
-.d-flex.justify-content-center
-  = paginate @movies
+  .d-flex.justify-content-center
+    = paginate @movies
