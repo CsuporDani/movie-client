@@ -1,7 +1,7 @@
 - if @movies.present?
   .row.hidden-md-up
     - @movies.each do |movie|
-      .col-md-3.d-flex
+      .col-md-3.d-flex.my-3
         .card
           - img_src = movie.poster_url ? movie.poster_url : 'dummy-image-square.jpg'
           = image_tag img_src, class: 'card-img-top'

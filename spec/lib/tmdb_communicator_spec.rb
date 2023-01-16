@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TmdbCommunicator do
   subject { described_class.instance }
+  include_context 'http party mock'
 
   describe 'INSTANCE METHODS' do
     context "#get" do

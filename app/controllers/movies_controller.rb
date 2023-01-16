@@ -1,7 +1,7 @@
 class MoviesController < ApplicationController
 
-  rescue_from Exception,      with: :exception_error
-  rescue_from TmdbCommunicator::ApiError ,      with: :api_error
+  rescue_from Exception,                   with: :exception_error
+  rescue_from TmdbCommunicator::ApiError , with: :api_error
 
   before_action :clear_flash, only: [:index, :search]
 
@@ -11,7 +11,6 @@ class MoviesController < ApplicationController
   end
 
   def search
-    flash.clear
     result = if movie_params[:movie_name].present?
                res = ::MoviesClient.new.search(**movie_params.to_h.symbolize_keys) 
                flash[:info] = res[:message]
@@ -31,12 +30,20 @@ class MoviesController < ApplicationController
   end
    
   def exception_error e
-    flash[:danger] = "Something went wrong"
+    puts e
+    Rails.logger.error e.class.name
+    Rails.logger.error e.message
+
+    flash[:danger] = 'Something went wrong'
     render 'index'
   end
 
   def api_error e
-    flash[:danger] = "Unable to connect to the remote server"
+    puts e
+    Rails.logger.error e.class.name
+    Rails.logger.error e.message
+
+    flash[:danger] = 'Unable to connect to the remote server'
     render 'index'
   end
 

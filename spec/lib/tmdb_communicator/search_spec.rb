@@ -7,11 +7,10 @@ RSpec.describe TmdbCommunicator::Search do
     context "#movie" do
       let(:movie_name) { 'Test' }
       let(:page)       { 1 }
+      let(:path)       { '/3/search/movie' }
+      let(:query)      { { api_key: subject.api_key, query: movie_name, page: page }.to_query }
 
       it 'creates right url' do
-        query = { api_key: subject.api_key, query: movie_name, page: page }.to_query
-        path  = '/3/search/movie'
-
         expect(subject).to receive(:get).with( URI::HTTPS.build(host: subject.host, path: path, query: query))
         subject.movie(movie_name, page)
       end

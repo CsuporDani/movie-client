@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MoviesClient do
-  include_context 'tmdp communicator search mock'
+  include_context 'http party mock'
 
   subject { described_class.new }
 
@@ -87,6 +87,7 @@ RSpec.describe MoviesClient do
       it 'returns with right data' do
         resp = subject.send(:fetch_from_cache, Rails.cache.read([movie_name, page]))
 
+        expect(resp[:message]).to       eq('Result from cache')
         expect(resp[:total_results]).to eq(mocked_answer['total_results'])
         expect(resp[:movies]).to        match_array(Movie.where(tmdb_id: mocked_answer['results'].map { |r| r['id'] }))
       end
@@ -99,15 +100,25 @@ RSpec.describe MoviesClient do
       it 'returns with right data' do
         resp = subject.send(:fetch_from_tmdb, movie_name, page)
 
+        expect(resp[:message]).to       eq('Result from API')
         expect(resp[:total_results]).to eq(mocked_answer['total_results'])
         expect(resp[:movies]).to        match_array(Movie.where(tmdb_id: mocked_answer['results'].map { |r| r['id'] }))
       end
     end
 
-    context '#find_or_create' do
-      it 'returns with right data' do
-        resp = subject.send(:find_or_create, mocked_answer)
+    context '#find_or_create_movies' do
+      it 'returns with right records' do
+        resp = subject.send(:find_or_create_movies, mocked_answer)
 
+        expect(resp).to match_array(Movie.where(tmdb_id: mocked_answer['results'].map { |r| r['id'] }))
+      end
+    end
+
+    context '#process_response ' do
+      it 'returns with right records' do
+        resp = subject.send(:process_response , mocked_answer)
+
+        expect(resp[:message]).to       eq('Result from API')
         expect(resp[:total_results]).to eq(mocked_answer['total_results'])
         expect(resp[:movies]).to        match_array(Movie.where(tmdb_id: mocked_answer['results'].map { |r| r['id'] }))
       end

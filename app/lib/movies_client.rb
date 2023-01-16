@@ -19,7 +19,7 @@ class MoviesClient
   end
 
   def fetch_from_tmdb movie_name, page
-    result = find_or_create(TmdbCommunicator::Search.instance.movie(movie_name, page))
+    result = process_response(TmdbCommunicator::Search.instance.movie(movie_name, page))
     cached_hash = {
       movie_ids:          result[:movies].map(&:id),
       total_results:      result[:total_results],
@@ -29,16 +29,19 @@ class MoviesClient
     result
   end
 
-  def find_or_create movies_hash
-    init_hash = {
+  def process_response movies_hash
+    {
       total_results: movies_hash['total_results'],
-      movies: [],
-      message: 'Result from API'
+      movies:        find_or_create_movies(movies_hash),
+      message:       'Result from API'
     }
-    movies_hash['results'].each_with_object(init_hash) do |movie_hash, memo|
+  end
+
+  def find_or_create_movies movies_hash
+    movies_hash['results'].inject([]) do |memo, movie_hash|
       movie = Movie.find_or_initialize_by(tmdb_id: movie_hash['id'])
       movie.update!(movie_hash.slice('title', 'overview', 'poster_path'))
-      memo[:movies] << movie
+      memo << movie
     end
   end
 

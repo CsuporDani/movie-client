@@ -16,13 +16,9 @@
  @import "bootstrap";
 
 :root {
-   --gold: #aa8961;
-   --blue: #042a3d;
    --dark-blue: #032536;
-   --green: #5cb85c;
    --gray: #aab9ca;
    --light-gray: #e5e9eb;
-   --red: #d9534f;
 }
 
 body {
@@ -51,9 +47,4 @@ body {
    background-color: var(--gray);
    border: 1px solid var(--gray);
    color: var(--dark-blue);
-}
-
-.card {
-   margin-top: 10px;
-   margin-bottom: 10px;
 }
