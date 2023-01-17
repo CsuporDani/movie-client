@@ -4,7 +4,6 @@ RSpec.describe Movie, type: :model do
   subject { described_class.create(title: 'Test', tmdb_id: 1) }
 
   describe 'DB COLUMNS', :shoulda do
-    it { should have_db_column(:serial)     .of_type(:string) .with_options(null: false) }
     it { should have_db_column(:title)      .of_type(:string) .with_options(null: false) }
     it { should have_db_column(:tmdb_id)    .of_type(:integer).with_options(null: false) }
     it { should have_db_column(:overview)   .of_type(:string)                            }

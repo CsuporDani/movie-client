@@ -6,8 +6,6 @@ class Movie < ApplicationRecord
   # = include
   # = extend
 
-  include Serialable
-
   # MODULE INITIALIZERS
   # = acts_as_paranoid
 
