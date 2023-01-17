@@ -2,6 +2,7 @@ require 'singleton'
 
 class TmdbCommunicator
   class ApiError < StandardError; end
+  class BadResponse < StandardError; end
 
   include Singleton
 
@@ -14,9 +15,11 @@ class TmdbCommunicator
 
   def get url
     response = HTTParty.get(url)
-    raise response.code unless response.success?
+    raise TmdbCommunicator::BadResponse.new "#{response.code} - #{response.message}" unless response.success?
     response
-  rescue
-    raise ApiError
+  rescue TmdbCommunicator::BadResponse => e
+    raise e
+  rescue => e
+    raise ApiError.new e.message
   end
 end

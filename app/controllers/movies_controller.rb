@@ -1,7 +1,8 @@
 class MoviesController < ApplicationController
 
-  rescue_from Exception,                   with: :exception_error
-  rescue_from TmdbCommunicator::ApiError , with: :api_error
+  rescue_from Exception,                     with: :exception_error
+  rescue_from TmdbCommunicator::ApiError ,   with: :api_error
+  rescue_from TmdbCommunicator::BadResponse, with: :bad_response_error
 
   before_action :clear_flash, only: [:index, :search]
 
@@ -30,7 +31,6 @@ class MoviesController < ApplicationController
   end
    
   def exception_error e
-    puts e
     Rails.logger.error e.class.name
     Rails.logger.error e.message
 
@@ -39,11 +39,18 @@ class MoviesController < ApplicationController
   end
 
   def api_error e
-    puts e
     Rails.logger.error e.class.name
     Rails.logger.error e.message
 
     flash[:danger] = 'Unable to connect to the remote server'
+    render 'index'
+  end
+
+  def bad_response_error e
+    Rails.logger.error e.class.name
+    Rails.logger.error e.message
+
+    flash[:danger] = e.message
     render 'index'
   end
 

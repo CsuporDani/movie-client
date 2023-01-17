@@ -68,7 +68,29 @@ RSpec.describe "Movies", type: :request do
       it 'sets danger flash message' do
         get('/search', params: { movie_name: 'Test' })
 
+        expect(flash[:danger]).to eq '404 - NOT FOUND'
+        expect(subject).to        render_template(:index)
+      end
+    end
+
+    context 'when communicator error happend' do
+      before(:each) { allow(HTTParty).to receive(:get).and_raise("error") }
+
+      it 'sets danger flash message' do
+        get('/search', params: { movie_name: 'Test' })
+
         expect(flash[:danger]).to eq 'Unable to connect to the remote server'
+        expect(subject).to        render_template(:index)
+      end
+    end
+
+    context 'when unexpected error raised' do
+      before(:each) { allow_any_instance_of(MoviesClient).to receive(:search).and_raise("error") }
+
+      it 'sets danger flash message' do
+        get('/search', params: { movie_name: 'Test' })
+
+        expect(flash[:danger]).to eq 'Something went wrong'
         expect(subject).to        render_template(:index)
       end
     end
